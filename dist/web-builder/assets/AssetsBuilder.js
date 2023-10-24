@@ -28,50 +28,53 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const console_1 = require("../console");
 /** */
-const ASSETS_SUFFIXES = ['.png'];
+const DEFAULT_ASSETS_SUFFIXES = ['.png'];
 /** */
 class AssetsBuilder {
     /** */
-    constructor(srcDir, dstDir, suffixes = ASSETS_SUFFIXES) {
-        this.srcDir = srcDir;
-        this.dstDir = dstDir;
-        this.suffixes = suffixes;
+    constructor(options) {
+        this.options = options;
     }
     /** */
     isAssetFile(file) {
-        return this.suffixes.some(prefix => file.endsWith(prefix));
+        const { suffixes = DEFAULT_ASSETS_SUFFIXES } = this.options;
+        return suffixes.some(prefix => file.endsWith(prefix));
     }
     /** */
     removeAssets() {
+        const { dstDir } = this.options;
         // do nothing if the directory does not exist
-        if (!fs.existsSync(this.dstDir)) {
+        if (!fs.existsSync(dstDir)) {
             return;
         }
         (0, console_1.printDetails)('Removing');
         // remove
-        const files = fs.readdirSync(this.dstDir);
+        const files = fs.readdirSync(dstDir);
         for (const file of files) {
             if (this.isAssetFile(file)) {
-                fs.unlinkSync(path.join(this.dstDir, file));
+                fs.unlinkSync(path.join(dstDir, file));
             }
         }
     }
     /** */
     copyAssets() {
-        if (!fs.existsSync(this.srcDir)) {
-            (0, console_1.printDetails)(`Nothing to copy. No asset directory ${this.srcDir}`);
+        const { srcDir, dstDir } = this.options;
+        if (!fs.existsSync(srcDir)) {
+            (0, console_1.printDetails)(`Nothing to copy. No asset directory ${srcDir}`);
             return;
         }
-        // create directory
-        (0, console_1.printDetails)(`Creating directory: ${this.dstDir}`);
-        fs.mkdirSync(this.dstDir, { recursive: true });
-        (0, console_1.printDetails)(`Copying from directory: ${this.srcDir}`);
+        // create destination directory
+        if (!fs.existsSync(dstDir)) {
+            (0, console_1.printDetails)(`Creating directory: ${dstDir}`);
+            fs.mkdirSync(dstDir, { recursive: true });
+        }
+        (0, console_1.printDetails)(`Copying from directory: ${srcDir}`);
         // copy file
-        const files = fs.readdirSync(this.srcDir);
+        const files = fs.readdirSync(srcDir);
         for (const file of files) {
             if (this.isAssetFile(file)) {
-                const srcFile = path.join(this.srcDir, file);
-                const dstFile = path.join(this.dstDir, file);
+                const srcFile = path.join(srcDir, file);
+                const dstFile = path.join(dstDir, file);
                 try {
                     fs.copyFileSync(srcFile, dstFile);
                 }

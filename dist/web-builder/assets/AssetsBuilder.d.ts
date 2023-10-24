@@ -1,10 +1,17 @@
 /** */
+export interface AssetsBuilderOptions {
+    /** Directory with source assets. */
+    srcDir: string;
+    /** Destination directory. */
+    dstDir: string;
+    /** Suffixes of files to copy. */
+    suffixes?: string[];
+}
+/** */
 export declare class AssetsBuilder {
-    private readonly srcDir;
-    private readonly dstDir;
-    private readonly suffixes;
+    private readonly options?;
     /** */
-    constructor(srcDir: string, dstDir: string, suffixes?: string[]);
+    constructor(options?: AssetsBuilderOptions);
     /** */
     private isAssetFile;
     /** */

@@ -7,8 +7,11 @@ export interface CSSFile {
 }
 /** */
 export interface HTMLBuilderOptions {
+    /** */
     templateFile: string;
+    /** */
     dstDir: string;
+    /** */
     cssFiles: CSSFile[];
 }
 /** */
