@@ -1,16 +1,18 @@
 {
   "name": "@andcreations/web-builder",
   "version": "0.2.0",
-  "description": "",
+  "description": "A web builder tool",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist && rm -rf node_modules",
     "rebuild": "rm -rf dist && npm run build",
     "test": "jest"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "AndCreations",
+  "license": "MIT",
+  "private": false,
   "devDependencies": {
     "@andcreations/io": "andcreations/io.git#0.1.0",
     "@types/jest": "^27.0.2",
