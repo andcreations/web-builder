@@ -66,12 +66,16 @@ class WebpackAppBuilder {
         // build
         const compiler = (0, webpack_1.default)(config);
         return new Promise((resolve, reject) => {
-            compiler.run((error, result) => {
+            compiler.run((error, stats) => {
                 if (error) {
                     reject(error);
                     return;
                 }
-                (0, console_1.printDetails)(result.toString());
+                (0, console_1.printDetails)(stats.toString());
+                if (stats.hasErrors()) {
+                    reject(new Error('Webpack failed'));
+                    return;
+                }
                 resolve();
             });
         });
