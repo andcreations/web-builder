@@ -37,7 +37,7 @@ class HTMLBuilder {
     }
     /** */
     findAppJSFile() {
-        return (0, io_1.matchFile)(this.options.dstDir, /app.*js/);
+        return (0, io_1.matchFile)(this.options.dstDir, /^app.*js$/);
     }
     /** */
     readTemplate() {

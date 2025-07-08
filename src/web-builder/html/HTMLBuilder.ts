@@ -33,7 +33,7 @@ export class HTMLBuilder {
 
   /** */
   private findAppJSFile(): string {
-    return matchFile(this.options.dstDir, /app.*js/);
+    return matchFile(this.options.dstDir, /^app.*js$/);
   }
 
   /** */
